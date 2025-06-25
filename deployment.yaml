@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app
+  labels:
+    app: laravel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel
+  template:
+    metadata:
+      labels:
+        app: laravel
+    spec:
+      containers:
+      - name: web-server
+        image: final-b-app  # Replace with your Laravel image from ex1
+        ports:
+        - containerPort: 8080
+        - containerPort: 22
+        env:
+        - name: DB_HOST
+          value: "127.0.0.1"
+        - name: DB_DATABASE
+          value: "laravel"  # Replace with your actual name
+        - name: DB_USERNAME
+          value: "root"
+        - name: DB_PASSWORD
+          value: "Hello@123"
+      - name: mysql-db
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "Hello@123"
+        - name: MYSQL_DATABASE
+          value: "laravel"  # Replace with your actual name
+        ports:
+        - containerPort: 3306
